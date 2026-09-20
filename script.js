@@ -221,7 +221,7 @@ function orderWhatsApp() {
 
 
     // SHYIRAMO NUMBER YA WHATSAPP YA KAREBU SHOP HANO
-    const phone = "2507XXXXXXXX";
+    const phone = "250783302444";
 
 
     window.open(
