@@ -371,6 +371,32 @@ nav a:hover {
 
 
 /* FOOTER */
+.cart-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-controls button {
+    border: none;
+    background: #e67e22;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cart-controls span {
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.cart-controls .remove-button {
+    background: #d9534f;
+    margin-left: 5px;
+}
 
 footer {
     background: #171717;
