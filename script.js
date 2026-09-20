@@ -2,10 +2,19 @@ let cart = [];
 
 function addToCart(name, price) {
 
-    cart.push({
-        name: name,
-        price: price
-    });
+    const existingProduct = cart.find(
+        item => item.name === name
+    );
+
+    if (existingProduct) {
+        existingProduct.quantity++;
+    } else {
+        cart.push({
+            name: name,
+            price: price,
+            quantity: 1
+        });
+    }
 
     updateCartCount();
 
@@ -15,16 +24,18 @@ function addToCart(name, price) {
 
 function updateCartCount() {
 
-    document.getElementById("cart-count").textContent =
-        cart.length;
+    const count = cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+    );
+
+    document.getElementById("cart-count").textContent = count;
 }
 
 
 function showCart() {
 
-    const modal = document.getElementById("cart-modal");
-
-    modal.style.display = "flex";
+    document.getElementById("cart-modal").style.display = "flex";
 
     displayCart();
 }
@@ -32,8 +43,45 @@ function showCart() {
 
 function closeCart() {
 
-    document.getElementById("cart-modal").style.display =
-        "none";
+    document.getElementById("cart-modal").style.display = "none";
+}
+
+
+function increaseQuantity(index) {
+
+    cart[index].quantity++;
+
+    updateCartCount();
+
+    displayCart();
+}
+
+
+function decreaseQuantity(index) {
+
+    if (cart[index].quantity > 1) {
+
+        cart[index].quantity--;
+
+    } else {
+
+        cart.splice(index, 1);
+
+    }
+
+    updateCartCount();
+
+    displayCart();
+}
+
+
+function removeFromCart(index) {
+
+    cart.splice(index, 1);
+
+    updateCartCount();
+
+    displayCart();
 }
 
 
@@ -49,7 +97,7 @@ function displayCart() {
     if (cart.length === 0) {
 
         cartItems.innerHTML =
-            "<p>Cart yawe iracyari empty.</p>";
+            "<p>Cart yawe iracyari empty 🛒</p>";
 
         cartTotal.textContent = "0 Fr";
 
@@ -62,17 +110,43 @@ function displayCart() {
     cartItems.innerHTML = "";
 
 
-    cart.forEach(function(item) {
+    cart.forEach(function(item, index) {
 
-        total += item.price;
+        total += item.price * item.quantity;
 
         const div = document.createElement("div");
 
         div.className = "cart-item";
 
         div.innerHTML = `
-            <span>${item.name}</span>
-            <strong>${item.price.toLocaleString()} Fr</strong>
+            <div>
+                <strong>${item.name}</strong>
+                <br>
+                <small>
+                    ${item.price.toLocaleString()} Fr ×
+                    ${item.quantity}
+                </small>
+            </div>
+
+            <div class="cart-controls">
+
+                <button onclick="decreaseQuantity(${index})">
+                    −
+                </button>
+
+                <span>${item.quantity}</span>
+
+                <button onclick="increaseQuantity(${index})">
+                    +
+                </button>
+
+                <button
+                    onclick="removeFromCart(${index})"
+                    class="remove-button">
+                    🗑️
+                </button>
+
+            </div>
         `;
 
         cartItems.appendChild(div);
@@ -108,4 +182,50 @@ function filterProducts(category) {
 
     });
 
+}
+
+
+function orderWhatsApp() {
+
+    if (cart.length === 0) {
+
+        alert("Cart yawe iracyari empty.");
+
+        return;
+    }
+
+
+    let message = "Muraho KAREBU Shop!%0A%0A";
+
+    message += "Ndashaka gutumiza:%0A";
+
+
+    let total = 0;
+
+
+    cart.forEach(function(item) {
+
+        const subtotal =
+            item.price * item.quantity;
+
+        total += subtotal;
+
+        message +=
+            `- ${item.name} x${item.quantity}: ${subtotal.toLocaleString()} Fr%0A`;
+
+    });
+
+
+    message +=
+        `%0ATotal: ${total.toLocaleString()} Fr`;
+
+
+    // SHYIRAMO NUMBER YA WHATSAPP YA KAREBU SHOP HANO
+    const phone = "2507XXXXXXXX";
+
+
+    window.open(
+        `https://wa.me/${phone}?text=${message}`,
+        "_blank"
+    );
 }
