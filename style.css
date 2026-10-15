@@ -451,3 +451,52 @@ footer p {
     }
 
 }
+```css
+/* KAREBU SHOP PROMOTION */
+.promo-banner {
+    background: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 55px 20px;
+    border-bottom: 4px solid #d4af37;
+}
+
+.promo-label {
+    color: #d4af37;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.promo-banner h1 {
+    font-size: 42px;
+    margin: 15px 0;
+}
+
+.promo-banner h2 {
+    color: #d4af37;
+    font-size: 25px;
+}
+
+.promo-banner p {
+    line-height: 1.7;
+}
+
+.shop-now-btn {
+    display: inline-block;
+    background: #d4af37;
+    color: #111111;
+    padding: 14px 30px;
+    margin: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.shop-now-btn:hover {
+    background: #ffffff;
+}
+
+.promo-contact {
+    font-weight: bold;
+}
+```
