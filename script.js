@@ -1,13 +1,14 @@
 
+
 const products = [
   {
     id: 1,
     name: "Fresh Tomatoes",
     category: "Vegetables",
     price: 1000,
-    unit: "per basket",
+    unit: "per portion",
     tag: "FRESH",
-    image: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=600&q=85"
   },
   {
     id: 2,
@@ -16,7 +17,7 @@ const products = [
     price: 1500,
     unit: "per bunch",
     tag: "POPULAR",
-    image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=85"
   },
   {
     id: 3,
@@ -25,7 +26,7 @@ const products = [
     price: 7500,
     unit: "per bag",
     tag: "QUALITY",
-    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=85"
   },
   {
     id: 4,
@@ -34,7 +35,7 @@ const products = [
     price: 3200,
     unit: "per bottle",
     tag: "ESSENTIAL",
-    image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=85"
   },
   {
     id: 5,
@@ -43,7 +44,7 @@ const products = [
     price: 2000,
     unit: "per portion",
     tag: "FRESH",
-    image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=600&q=85"
   },
   {
     id: 6,
@@ -52,7 +53,7 @@ const products = [
     price: 1200,
     unit: "per portion",
     tag: "FRESH",
-    image: "https://images.unsplash.com/photo-1445282768818-728615cc910a?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1445282768818-728615cc910a?auto=format&fit=crop&w=600&q=85"
   },
   {
     id: 7,
@@ -61,7 +62,7 @@ const products = [
     price: 2500,
     unit: "per portion",
     tag: "POPULAR",
-    image: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=600&q=85"
   },
   {
     id: 8,
@@ -70,7 +71,79 @@ const products = [
     price: 3000,
     unit: "per portion",
     tag: "QUALITY",
-    image: "https://images.unsplash.com/photo-1551462147-ff29053bfc14?auto=format&fit=crop&w=600&q=80"
+    image: "https://images.unsplash.com/photo-1551462147-ff29053bfc14?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 9,
+    name: "Fresh Potatoes",
+    category: "Vegetables",
+    price: 1500,
+    unit: "per portion",
+    tag: "POPULAR",
+    image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 10,
+    name: "Fresh Milk",
+    category: "Dairy",
+    price: 1200,
+    unit: "per litre",
+    tag: "FRESH",
+    image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 11,
+    name: "Farm Fresh Eggs",
+    category: "Dairy",
+    price: 2500,
+    unit: "per tray",
+    tag: "POPULAR",
+    image: "https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 12,
+    name: "White Sugar",
+    category: "Pantry",
+    price: 1800,
+    unit: "per portion",
+    tag: "ESSENTIAL",
+    image: "https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 13,
+    name: "Fresh Pineapple",
+    category: "Fruits",
+    price: 1800,
+    unit: "each",
+    tag: "FRESH",
+    image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 14,
+    name: "Green Peppers",
+    category: "Vegetables",
+    price: 1000,
+    unit: "per portion",
+    tag: "FRESH",
+    image: "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 15,
+    name: "Fresh Bread",
+    category: "Pantry",
+    price: 1500,
+    unit: "per loaf",
+    tag: "DAILY FRESH",
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=85"
+  },
+  {
+    id: 16,
+    name: "Fresh Strawberries",
+    category: "Fruits",
+    price: 3500,
+    unit: "per portion",
+    tag: "SPECIAL",
+    image: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=600&q=85"
   }
 ];
 
