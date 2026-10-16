@@ -1,243 +1,325 @@
+
+const products = [
+  {
+    id: 1,
+    name: "Fresh Tomatoes",
+    category: "Vegetables",
+    price: 1000,
+    unit: "per basket",
+    tag: "FRESH",
+    image: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 2,
+    name: "Sweet Bananas",
+    category: "Fruits",
+    price: 1500,
+    unit: "per bunch",
+    tag: "POPULAR",
+    image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 3,
+    name: "Rice 5kg",
+    category: "Grains",
+    price: 7500,
+    unit: "per bag",
+    tag: "QUALITY",
+    image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 4,
+    name: "Cooking Oil 1L",
+    category: "Pantry",
+    price: 3200,
+    unit: "per bottle",
+    tag: "ESSENTIAL",
+    image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 5,
+    name: "Fresh Avocados",
+    category: "Fruits",
+    price: 2000,
+    unit: "per portion",
+    tag: "FRESH",
+    image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 6,
+    name: "Fresh Carrots",
+    category: "Vegetables",
+    price: 1200,
+    unit: "per portion",
+    tag: "FRESH",
+    image: "https://images.unsplash.com/photo-1445282768818-728615cc910a?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 7,
+    name: "Fresh Oranges",
+    category: "Fruits",
+    price: 2500,
+    unit: "per portion",
+    tag: "POPULAR",
+    image: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 8,
+    name: "Dry Beans",
+    category: "Grains",
+    price: 3000,
+    unit: "per portion",
+    tag: "QUALITY",
+    image: "https://images.unsplash.com/photo-1551462147-ff29053bfc14?auto=format&fit=crop&w=600&q=80"
+  }
+];
+
+// Change this to your real WhatsApp number if necessary.
+// Use country code 250, without the leading 0.
+const whatsappNumber = "250783302444";
+
 let cart = [];
+let activeCategory = "All";
 
-function addToCart(name, price) {
+const productsGrid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
+const emptyMessage = document.getElementById("emptyMessage");
+const cartOverlay = document.getElementById("cartOverlay");
+const cartItems = document.getElementById("cartItems");
 
-    const existingProduct = cart.find(
-        item => item.name === name
-    );
-
-    if (existingProduct) {
-        existingProduct.quantity++;
-    } else {
-        cart.push({
-            name: name,
-            price: price,
-            quantity: 1
-        });
-    }
-
-    updateCartCount();
-
-    alert(name + " yashyizwe muri Cart 🛒");
+function formatPrice(price) {
+  return price.toLocaleString("en-US") + " RWF";
 }
 
+function renderProducts() {
+  const searchTerm = searchInput.value.trim().toLowerCase();
 
-function updateCartCount() {
+  const filteredProducts = products.filter(product => {
+    const matchesCategory =
+      activeCategory === "All" ||
+      product.category === activeCategory;
 
-    const count = cart.reduce(
-        (total, item) => total + item.quantity,
-        0
-    );
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.category.toLowerCase().includes(searchTerm);
 
-    document.getElementById("cart-count").textContent = count;
+    return matchesCategory && matchesSearch;
+  });
+
+  productsGrid.innerHTML = filteredProducts.map(product => `
+    <article class="product-card">
+      <div class="product-image">
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          loading="lazy"
+          onerror="this.onerror=null;this.src='https://placehold.co/600x400/f3f0e5/244c38?text=KAREBU+SHOP'"
+        >
+        <span class="product-tag">${product.tag}</span>
+      </div>
+      <div class="product-info">
+        <span class="product-category">${product.category}</span>
+        <h3>${product.name}</h3>
+        <small>${product.unit}</small>
+        <div class="product-bottom">
+          <span class="product-price">${formatPrice(product.price)}</span>
+          <button class="add-button" data-add="${product.id}">
+            + Add to Cart
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  emptyMessage.hidden = filteredProducts.length !== 0;
 }
 
+function addToCart(productId) {
+  const existingItem = cart.find(item => item.id === productId);
 
-function showCart() {
+  if (existingItem) {
+    existingItem.quantity++;
+  } else {
+    cart.push({ id: productId, quantity: 1 });
+  }
 
-    document.getElementById("cart-modal").style.display = "flex";
-
-    displayCart();
+  renderCart();
 }
 
+function changeQuantity(productId, amount) {
+  const item = cart.find(item => item.id === productId);
+
+  if (!item) return;
+
+  item.quantity += amount;
+
+  if (item.quantity <= 0) {
+    cart = cart.filter(item => item.id !== productId);
+  }
+
+  renderCart();
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  renderCart();
+}
+
+function renderCart() {
+  const totalQuantity = cart.reduce(
+    (sum, item) => sum + item.quantity, 0
+  );
+
+  const totalPrice = cart.reduce((sum, item) => {
+    const product = products.find(p => p.id === item.id);
+    return sum + product.price * item.quantity;
+  }, 0);
+
+  document.getElementById("cartCount").textContent = totalQuantity;
+  document.getElementById("cartTotal").textContent = formatPrice(totalPrice);
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = "<p>Your cart is empty. Add some products!</p>";
+    return;
+  }
+
+  cartItems.innerHTML = cart.map(item => {
+    const product = products.find(p => p.id === item.id);
+
+    return `
+      <div class="cart-item">
+        <img src="${product.image}" alt="${product.name}">
+        <div class="cart-item-details">
+          <strong>${product.name}</strong>
+          <small>${formatPrice(product.price)} each</small>
+          <div class="quantity-controls">
+            <button data-minus="${product.id}" aria-label="Decrease quantity">−</button>
+            <span>${item.quantity}</span>
+            <button data-plus="${product.id}" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <button class="remove-button" data-remove="${product.id}" aria-label="Remove product">✕</button>
+      </div>
+    `;
+  }).join("");
+}
+
+function openCart() {
+  cartOverlay.hidden = false;
+  document.body.style.overflow = "hidden";
+}
 
 function closeCart() {
-
-    document.getElementById("cart-modal").style.display = "none";
+  cartOverlay.hidden = true;
+  document.body.style.overflow = "";
 }
 
+function checkoutOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Your cart is empty. Please add some products first.");
+    return;
+  }
 
-function increaseQuantity(index) {
+  let message = "Hello KAREBU SHOP! I would like to place this order:\n\n";
+  let total = 0;
 
-    cart[index].quantity++;
+  cart.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    const subtotal = product.price * item.quantity;
 
-    updateCartCount();
+    message += `${product.name} x ${item.quantity} = ${formatPrice(subtotal)}\n`;
+    total += subtotal;
+  });
 
-    displayCart();
+  message += `\nTOTAL: ${formatPrice(total)}`;
+  message += "\n\nPlease confirm availability and delivery details. Thank you!";
+
+  const url =
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
+// Product buttons
+productsGrid.addEventListener("click", event => {
+  const button = event.target.closest("[data-add]");
+  if (!button) return;
 
-function decreaseQuantity(index) {
+  addToCart(Number(button.dataset.add));
+});
 
-    if (cart[index].quantity > 1) {
+searchInput.addEventListener("input", renderProducts);
 
-        cart[index].quantity--;
+// Category filter buttons
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    activeCategory = button.dataset.filter;
 
-    } else {
-
-        cart.splice(index, 1);
-
-    }
-
-    updateCartCount();
-
-    displayCart();
-}
-
-
-function removeFromCart(index) {
-
-    cart.splice(index, 1);
-
-    updateCartCount();
-
-    displayCart();
-}
-
-
-function displayCart() {
-
-    const cartItems =
-        document.getElementById("cart-items");
-
-    const cartTotal =
-        document.getElementById("cart-total");
-
-
-    if (cart.length === 0) {
-
-        cartItems.innerHTML =
-            "<p>Cart yawe iracyari empty 🛒</p>";
-
-        cartTotal.textContent = "0 Fr";
-
-        return;
-    }
-
-
-    let total = 0;
-
-    cartItems.innerHTML = "";
-
-
-    cart.forEach(function(item, index) {
-
-        total += item.price * item.quantity;
-
-        const div = document.createElement("div");
-
-        div.className = "cart-item";
-
-        div.innerHTML = `
-            <div>
-                <strong>${item.name}</strong>
-                <br>
-                <small>
-                    ${item.price.toLocaleString()} Fr ×
-                    ${item.quantity}
-                </small>
-            </div>
-
-            <div class="cart-controls">
-
-                <button onclick="decreaseQuantity(${index})">
-                    −
-                </button>
-
-                <span>${item.quantity}</span>
-
-                <button onclick="increaseQuantity(${index})">
-                    +
-                </button>
-
-                <button
-                    onclick="removeFromCart(${index})"
-                    class="remove-button">
-                    🗑️
-                </button>
-
-            </div>
-        `;
-
-        cartItems.appendChild(div);
-
+    document.querySelectorAll(".filter").forEach(item => {
+      item.classList.toggle("active", item === button);
     });
 
+    renderProducts();
+  });
+});
 
-    cartTotal.textContent =
-        total.toLocaleString() + " Fr";
-}
+// Category cards
+document.querySelectorAll(".category-card").forEach(button => {
+  button.addEventListener("click", () => {
+    activeCategory = button.dataset.category;
 
-
-function filterProducts(category) {
-
-    const products =
-        document.querySelectorAll(".product");
-
-
-    products.forEach(function(product) {
-
-        if (
-            category === "all" ||
-            product.dataset.category === category
-        ) {
-
-            product.style.display = "block";
-
-        } else {
-
-            product.style.display = "none";
-
-        }
-
+    document.querySelectorAll(".filter").forEach(item => {
+      item.classList.toggle(
+        "active",
+        item.dataset.filter === activeCategory
+      );
     });
 
-}
-
-
-function orderWhatsApp() {
-
-    if (cart.length === 0) {
-
-        alert("Cart yawe iracyari empty.");
-
-        return;
-    }
-
-
-    let message = "Muraho KAREBU Shop!%0A%0A";
-
-    message += "Ndashaka gutumiza:%0A";
-
-
-    let total = 0;
-
-
-    cart.forEach(function(item) {
-
-        const subtotal =
-            item.price * item.quantity;
-
-        total += subtotal;
-
-        message +=
-            `- ${item.name} x${item.quantity}: ${subtotal.toLocaleString()} Fr%0A`;
-
+    renderProducts();
+    document.getElementById("products").scrollIntoView({
+      behavior: "smooth"
     });
+  });
+});
 
+// Cart controls
+document.getElementById("cartButton").addEventListener("click", openCart);
+document.getElementById("closeCart").addEventListener("click", closeCart);
 
-    message +=
-        `%0ATotal: ${total.toLocaleString()} Fr`;
+cartOverlay.addEventListener("click", event => {
+  if (event.target === cartOverlay) closeCart();
+});
 
+cartItems.addEventListener("click", event => {
+  const minus = event.target.closest("[data-minus]");
+  const plus = event.target.closest("[data-plus]");
+  const remove = event.target.closest("[data-remove]");
 
-    // SHYIRAMO NUMBER YA WHATSAPP YA KAREBU SHOP HANO
-    const phone = "+250 783302444";
+  if (minus) changeQuantity(Number(minus.dataset.minus), -1);
+  if (plus) changeQuantity(Number(plus.dataset.plus), 1);
+  if (remove) removeFromCart(Number(remove.dataset.remove));
+});
 
+document.getElementById("checkoutButton").addEventListener(
+  "click",
+  checkoutOnWhatsApp
+);
 
-    window.open(
-        `https://wa.me/${phone}?text=${message}`,
-        "_blank"
-    );
-}
-```javascript
-let cart = [];
+// Mobile navigation
+const menuToggle = document.getElementById("menuToggle");
+const nav = document.getElementById("nav");
 
-function addToCart(name, price) {
-    cart.push({
-        name: name,
-        price: price
-    });
+menuToggle.addEventListener("click", () => {
+  nav.classList.toggle("open");
+});
 
-    alert(name + " added to cart!");
-    console.log("Your cart:", cart);
-}
+nav.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => nav.classList.remove("open"));
+});
+
+// Current year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Display products when the page opens
+renderProducts();
+renderCart();
