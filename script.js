@@ -396,3 +396,87 @@ document.getElementById("year").textContent = new Date().getFullYear();
 // Display products when the page opens
 renderProducts();
 renderCart();
+
+const productModal = document.getElementById("productModal");
+const detailQuantity = document.getElementById("detailQuantity");
+
+let selectedProductId = null;
+
+function openProductDetails(productId) {
+  const product = products.find(item => item.id === productId);
+
+  if (!product) return;
+
+  selectedProductId = product.id;
+
+  document.getElementById("detailImage").src = product.image;
+  document.getElementById("detailImage").alt = product.name;
+  document.getElementById("detailName").textContent = product.name;
+  document.getElementById("detailCategory").textContent = product.category;
+  document.getElementById("detailPrice").textContent = formatPrice(product.price);
+  document.getElementById("detailUnit").textContent = product.unit;
+  document.getElementById("detailQuantity").value = 1;
+
+  document.getElementById("detailDescription").textContent =
+    `${product.name} from KAREBU SHOP. Contact us to confirm availability and product details.`;
+
+  productModal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeProductDetails() {
+  productModal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+productsGrid.addEventListener("click", event => {
+  const card = event.target.closest(".product-card");
+
+  if (!card) return;
+
+  // Do not open details when the Add to Cart button is clicked.
+  if (event.target.closest("[data-add]")) return;
+
+  const addButton = card.querySelector("[data-add]");
+
+  if (addButton) {
+    openProductDetails(Number(addButton.dataset.add));
+  }
+});
+
+document.getElementById("closeProductModal").addEventListener(
+  "click",
+  closeProductDetails
+);
+
+productModal.addEventListener("click", event => {
+  if (event.target === productModal) {
+    closeProductDetails();
+  }
+});
+
+document.getElementById("detailAddButton").addEventListener("click", () => {
+  if (selectedProductId === null) return;
+
+  const quantity = Number.parseInt(detailQuantity.value, 10);
+
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 999) {
+    alert("Please enter a quantity between 1 and 999.");
+    return;
+  }
+
+  const existingItem = cart.find(item => item.id === selectedProductId);
+
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.push({
+      id: selectedProductId,
+      quantity: quantity
+    });
+  }
+
+  renderCart();
+  closeProductDetails();
+  openCart();
+});
