@@ -1,6 +1,125 @@
 
 
 const products = [
+  
+{
+    id: 17,
+    name: "Umuceri",
+    category: "Grains",
+    price: 1800,
+    unit: "kg",
+    tag: "Urakunzwe",
+    image: "https://placehold.co/400x300?text=Umuceri"
+},
+{
+    id: 18,
+    name: "Amavuta yo guteka",
+    category: "Pantry",
+    price: 2500,
+    unit: "litiro",
+    tag: "Meza",
+    image: "https://placehold.co/400x300?text=Amavuta"
+},
+{
+    id: 19,
+    name: "Amazi yo kunywa",
+    category: "Pantry",
+    price: 500,
+    unit: "icupa",
+    tag: "Akonje",
+    image: "https://placehold.co/400x300?text=Amazi"
+},
+{
+    id: 20,
+    name: "Isabune",
+    category: "Pantry",
+    price: 1000,
+    unit: "imwe",
+    tag: "Isuku",
+    image: "https://placehold.co/400x300?text=Isabune"
+},
+{
+    id: 21,
+    name: "Amavuta yo kwisiga",
+    category: "Pantry",
+    price: 2500,
+    unit: "icupa",
+    tag: "Kwiyitaho",
+    image: "https://placehold.co/400x300?text=Amavuta+yo+kwisiga"
+},
+{
+    id: 22,
+    name: "Amaviriro",
+    category: "Pantry",
+    price: 1500,
+    unit: "igicuruzwa",
+    tag: "Bishya",
+    image: "https://placehold.co/400x300?text=Amaviriro"
+},
+{
+    id: 23,
+    name: "Amakaroni",
+    category: "Grains",
+    price: 1200,
+    unit: "ipaki",
+    tag: "Aryoshye",
+    image: "https://placehold.co/400x300?text=Amakaroni"
+},
+{
+    id: 24,
+    name: "Ibishyimbo",
+    category: "Grains",
+    price: 1500,
+    unit: "kg",
+    tag: "Byiza",
+    image: "https://placehold.co/400x300?text=Ibishyimbo"
+},
+{
+    id: 25,
+    name: "Ibitunguru",
+    category: "Vegetables",
+    price: 1000,
+    unit: "kg",
+    tag: "Bishya",
+    image: "https://placehold.co/400x300?text=Ibitunguru"
+},
+{
+    id: 26,
+    name: "Akawunga",
+    category: "Grains",
+    price: 1200,
+    unit: "kg",
+    tag: "Karyoshye",
+    image: "https://placehold.co/400x300?text=Akawunga"
+},
+{
+    id: 27,
+    name: "Amazi yo gukoresha mu rugo",
+    category: "Pantry",
+    price: 1000,
+    unit: "jerrycan",
+    tag: "Isuku",
+    image: "https://placehold.co/400x300?text=Amazi"
+},
+{
+    id: 28,
+    name: "Amashuka",
+    category: "Pantry",
+    price: 8000,
+    unit: "seti",
+    tag: "Meza",
+    image: "https://placehold.co/400x300?text=Amashuka"
+},
+{
+    id: 29,
+    name: "Umunyu",
+    category: "Pantry",
+    price: 500,
+    unit: "ipaki",
+    tag: "Iby'igikoni",
+    image: "https://placehold.co/400x300?text=Umunyu"
+}
+
   {
     id: 1,
     name: "Fresh Tomatoes",
