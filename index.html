@@ -181,6 +181,37 @@
     </section>
   </div>
 
+<!-- PRODUCT DETAILS WINDOW -->
+<div class="product-modal" id="productModal" hidden>
+  <div class="product-modal-content">
+    <button class="modal-close" id="closeProductModal" aria-label="Close">
+      &times;
+    </button>
+
+    <div class="product-modal-grid">
+      <img id="detailImage" src="" alt="Product image">
+
+      <div class="product-modal-info">
+        <span class="eyebrow">KAREBU SHOP COLLECTION</span>
+        <h2 id="detailName">Product name</h2>
+        <p class="detail-category" id="detailCategory"></p>
+        <h3 id="detailPrice"></h3>
+        <p id="detailUnit"></p>
+        <p class="detail-description" id="detailDescription">
+          Discover quality products selected for your home.
+        </p>
+
+        <label for="detailQuantity">Quantity</label>
+        <input id="detailQuantity" type="number" min="1" value="1">
+
+        <button class="button button-dark" id="detailAddButton">
+          ADD TO CART +
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <script src="script.js"></script>
 </body>
 </html>
