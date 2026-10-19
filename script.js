@@ -621,3 +621,26 @@ customerForm.addEventListener("submit", function(event) {
   // Scroll to top
   window.scrollTo(0, 0);
 });
+
+const customerForm = document.getElementById("customerDetails");
+const customerFormSection = document.getElementById("customer-form");
+const shopContent = document.getElementById("shop-content");
+
+customerForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Check if customer filled in all details
+    if (!customerForm.checkValidity()) {
+        customerForm.reportValidity();
+        return;
+    }
+
+    // Hide the form
+    customerFormSection.style.display = "none";
+
+    // Show KAREBU SHOP
+    shopContent.classList.add("shop-visible");
+
+    // Scroll to the top of the shop
+    window.scrollTo(0, 0);
+});
