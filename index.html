@@ -13,6 +13,58 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  
+<!-- CUSTOMER INFORMATION FORM -->
+<section class="customer-form" id="customer-form">
+
+    <div class="form-box">
+
+        <h1>Welcome to KAREBU SHOP</h1>
+
+        <p>Please enter your details before shopping.</p>
+
+        <form id="customerDetails">
+
+            <label for="customerName">Full Name</label>
+            <input
+                type="text"
+                id="customerName"
+                placeholder="Enter your full name"
+                required
+            >
+
+            <label for="customerLocation">Where do you live?</label>
+            <input
+                type="text"
+                id="customerLocation"
+                placeholder="Enter your District or City"
+                required
+            >
+
+            <label for="customerPhone">Phone Number</label>
+            <input
+                type="tel"
+                id="customerPhone"
+                placeholder="0780000000"
+                pattern="[0-9]{10}"
+                title="Enter a 10-digit phone number"
+                required
+            >
+
+            <button type="submit">Continue to Shop</button>
+
+        </form>
+
+        <p class="privacy-note">
+            Your information will be used to help us process your order.
+        </p>
+
+    </div>
+  
+
+</section>
+  <div id="shop-content">
+
 
   <div class="announcement">
     FRESH FOOD, GREAT PRICES <span>✦</span> WELCOME TO KAREBU SHOP
@@ -179,6 +231,7 @@
       </button>
       <p class="cart-help">Your order will be sent to WhatsApp for confirmation.</p>
     </section>
+    <div id="shop-content">
   </div>
 
 <!-- PRODUCT DETAILS WINDOW -->
@@ -211,6 +264,7 @@
     </div>
   </div>
 </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
