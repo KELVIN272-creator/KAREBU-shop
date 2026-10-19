@@ -952,3 +952,12 @@ h1, h2 {
     font-size: 26px;
   }
 }
+/* Hide shop before customer fills the form */
+#shop-content {
+    display: none;
+}
+
+/* Show shop after customer continues */
+#shop-content.shop-visible {
+    display: block;
+}
