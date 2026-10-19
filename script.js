@@ -1,125 +1,4 @@
-
-
 const products = [
-  
-{
-    id: 17,
-    name: "Umuceri",
-    category: "Grains",
-    price: 1800,
-    unit: "kg",
-    tag: "Urakunzwe",
-    image: "https://placehold.co/400x300?text=Umuceri"
-},
-{
-    id: 18,
-    name: "Amavuta yo guteka",
-    category: "Pantry",
-    price: 2500,
-    unit: "litiro",
-    tag: "Meza",
-    image: "https://placehold.co/400x300?text=Amavuta"
-},
-{
-    id: 19,
-    name: "Amazi yo kunywa",
-    category: "Pantry",
-    price: 500,
-    unit: "icupa",
-    tag: "Akonje",
-    image: "https://placehold.co/400x300?text=Amazi"
-},
-{
-    id: 20,
-    name: "Isabune",
-    category: "Pantry",
-    price: 1000,
-    unit: "imwe",
-    tag: "Isuku",
-    image: "https://placehold.co/400x300?text=Isabune"
-},
-{
-    id: 21,
-    name: "Amavuta yo kwisiga",
-    category: "Pantry",
-    price: 2500,
-    unit: "icupa",
-    tag: "Kwiyitaho",
-    image: "https://placehold.co/400x300?text=Amavuta+yo+kwisiga"
-},
-{
-    id: 22,
-    name: "Amaviriro",
-    category: "Pantry",
-    price: 1500,
-    unit: "igicuruzwa",
-    tag: "Bishya",
-    image: "https://placehold.co/400x300?text=Amaviriro"
-},
-{
-    id: 23,
-    name: "Amakaroni",
-    category: "Grains",
-    price: 1200,
-    unit: "ipaki",
-    tag: "Aryoshye",
-    image: "https://placehold.co/400x300?text=Amakaroni"
-},
-{
-    id: 24,
-    name: "Ibishyimbo",
-    category: "Grains",
-    price: 1500,
-    unit: "kg",
-    tag: "Byiza",
-    image: "https://placehold.co/400x300?text=Ibishyimbo"
-},
-{
-    id: 25,
-    name: "Ibitunguru",
-    category: "Vegetables",
-    price: 1000,
-    unit: "kg",
-    tag: "Bishya",
-    image: "https://placehold.co/400x300?text=Ibitunguru"
-},
-{
-    id: 26,
-    name: "Akawunga",
-    category: "Grains",
-    price: 1200,
-    unit: "kg",
-    tag: "Karyoshye",
-    image: "https://placehold.co/400x300?text=Akawunga"
-},
-{
-    id: 27,
-    name: "Amazi yo gukoresha mu rugo",
-    category: "Pantry",
-    price: 1000,
-    unit: "jerrycan",
-    tag: "Isuku",
-    image: "https://placehold.co/400x300?text=Amazi"
-},
-{
-    id: 28,
-    name: "Amashuka",
-    category: "Pantry",
-    price: 8000,
-    unit: "seti",
-    tag: "Meza",
-    image: "https://placehold.co/400x300?text=Amashuka"
-},
-{
-    id: 29,
-    name: "Umunyu",
-    category: "Pantry",
-    price: 500,
-    unit: "ipaki",
-    tag: "Iby'igikoni",
-    image: "https://placehold.co/400x300?text=Umunyu"
-}
-
   {
     id: 1,
     name: "Fresh Tomatoes",
@@ -266,23 +145,27 @@ const products = [
   }
 ];
 
-// Change this to your real WhatsApp number if necessary.
-// Use country code 250, without the leading 0.
+// KAREBU SHOP WhatsApp number
+// Country code 250, without the first 0
 const whatsappNumber = "250783302444";
 
 let cart = [];
 let activeCategory = "All";
+let customerDetails = null;
 
+// HTML elements
 const productsGrid = document.getElementById("productsGrid");
 const searchInput = document.getElementById("searchInput");
 const emptyMessage = document.getElementById("emptyMessage");
 const cartOverlay = document.getElementById("cartOverlay");
 const cartItems = document.getElementById("cartItems");
 
+// Format prices
 function formatPrice(price) {
   return price.toLocaleString("en-US") + " RWF";
 }
 
+// Display products
 function renderProducts() {
   const searchTerm = searchInput.value.trim().toLowerCase();
 
@@ -309,12 +192,17 @@ function renderProducts() {
         >
         <span class="product-tag">${product.tag}</span>
       </div>
+
       <div class="product-info">
         <span class="product-category">${product.category}</span>
         <h3>${product.name}</h3>
         <small>${product.unit}</small>
+
         <div class="product-bottom">
-          <span class="product-price">${formatPrice(product.price)}</span>
+          <span class="product-price">
+            ${formatPrice(product.price)}
+          </span>
+
           <button class="add-button" data-add="${product.id}">
             + Add to Cart
           </button>
@@ -326,18 +214,23 @@ function renderProducts() {
   emptyMessage.hidden = filteredProducts.length !== 0;
 }
 
+// Add product to cart
 function addToCart(productId) {
   const existingItem = cart.find(item => item.id === productId);
 
   if (existingItem) {
     existingItem.quantity++;
   } else {
-    cart.push({ id: productId, quantity: 1 });
+    cart.push({
+      id: productId,
+      quantity: 1
+    });
   }
 
   renderCart();
 }
 
+// Change product quantity
 function changeQuantity(productId, amount) {
   const item = cart.find(item => item.id === productId);
 
@@ -352,26 +245,35 @@ function changeQuantity(productId, amount) {
   renderCart();
 }
 
+// Remove product from cart
 function removeFromCart(productId) {
   cart = cart.filter(item => item.id !== productId);
+
   renderCart();
 }
 
+// Display cart
 function renderCart() {
   const totalQuantity = cart.reduce(
-    (sum, item) => sum + item.quantity, 0
+    (sum, item) => sum + item.quantity,
+    0
   );
 
   const totalPrice = cart.reduce((sum, item) => {
     const product = products.find(p => p.id === item.id);
+
     return sum + product.price * item.quantity;
   }, 0);
 
   document.getElementById("cartCount").textContent = totalQuantity;
-  document.getElementById("cartTotal").textContent = formatPrice(totalPrice);
+
+  document.getElementById("cartTotal").textContent =
+    formatPrice(totalPrice);
 
   if (cart.length === 0) {
-    cartItems.innerHTML = "<p>Your cart is empty. Add some products!</p>";
+    cartItems.innerHTML =
+      "<p>Your cart is empty. Add some products!</p>";
+
     return;
   }
 
@@ -381,50 +283,90 @@ function renderCart() {
     return `
       <div class="cart-item">
         <img src="${product.image}" alt="${product.name}">
+
         <div class="cart-item-details">
           <strong>${product.name}</strong>
+
           <small>${formatPrice(product.price)} each</small>
+
           <div class="quantity-controls">
-            <button data-minus="${product.id}" aria-label="Decrease quantity">−</button>
+            <button
+              data-minus="${product.id}"
+              aria-label="Decrease quantity"
+            >−</button>
+
             <span>${item.quantity}</span>
-            <button data-plus="${product.id}" aria-label="Increase quantity">+</button>
+
+            <button
+              data-plus="${product.id}"
+              aria-label="Increase quantity"
+            >+</button>
           </div>
         </div>
-        <button class="remove-button" data-remove="${product.id}" aria-label="Remove product">✕</button>
+
+        <button
+          class="remove-button"
+          data-remove="${product.id}"
+          aria-label="Remove product"
+        >✕</button>
       </div>
     `;
   }).join("");
 }
 
+// Open cart
 function openCart() {
   cartOverlay.hidden = false;
   document.body.style.overflow = "hidden";
 }
 
+// Close cart
 function closeCart() {
   cartOverlay.hidden = true;
   document.body.style.overflow = "";
 }
 
+// Checkout on WhatsApp
 function checkoutOnWhatsApp() {
+  if (!customerDetails) {
+    alert("Please complete the customer form first.");
+    return;
+  }
+
   if (cart.length === 0) {
     alert("Your cart is empty. Please add some products first.");
     return;
   }
 
-  let message = "Hello KAREBU SHOP! I would like to place this order:\n\n";
+  let message =
+    "Hello KAREBU SHOP! I would like to place this order:\n\n";
+
+  message += "CUSTOMER DETAILS\n";
+  message += `Name: ${customerDetails.name}\n`;
+  message += `Location: ${customerDetails.location}\n`;
+  message += `Phone: ${customerDetails.phone}\n\n`;
+
+  message += "ORDER DETAILS\n";
+
   let total = 0;
 
   cart.forEach(item => {
     const product = products.find(p => p.id === item.id);
+
+    if (!product) return;
+
     const subtotal = product.price * item.quantity;
 
-    message += `${product.name} x ${item.quantity} = ${formatPrice(subtotal)}\n`;
+    message +=
+      `${product.name} x ${item.quantity} = ${formatPrice(subtotal)}\n`;
+
     total += subtotal;
   });
 
   message += `\nTOTAL: ${formatPrice(total)}`;
-  message += "\n\nPlease confirm availability and delivery details. Thank you!";
+
+  message +=
+    "\n\nPlease confirm availability and delivery details. Thank you!";
 
   const url =
     `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -435,11 +377,13 @@ function checkoutOnWhatsApp() {
 // Product buttons
 productsGrid.addEventListener("click", event => {
   const button = event.target.closest("[data-add]");
+
   if (!button) return;
 
   addToCart(Number(button.dataset.add));
 });
 
+// Search products
 searchInput.addEventListener("input", renderProducts);
 
 // Category filter buttons
@@ -468,6 +412,7 @@ document.querySelectorAll(".category-card").forEach(button => {
     });
 
     renderProducts();
+
     document.getElementById("products").scrollIntoView({
       behavior: "smooth"
     });
@@ -475,23 +420,42 @@ document.querySelectorAll(".category-card").forEach(button => {
 });
 
 // Cart controls
-document.getElementById("cartButton").addEventListener("click", openCart);
-document.getElementById("closeCart").addEventListener("click", closeCart);
+document.getElementById("cartButton").addEventListener(
+  "click",
+  openCart
+);
+
+document.getElementById("closeCart").addEventListener(
+  "click",
+  closeCart
+);
 
 cartOverlay.addEventListener("click", event => {
-  if (event.target === cartOverlay) closeCart();
+  if (event.target === cartOverlay) {
+    closeCart();
+  }
 });
 
+// Cart quantity controls
 cartItems.addEventListener("click", event => {
   const minus = event.target.closest("[data-minus]");
   const plus = event.target.closest("[data-plus]");
   const remove = event.target.closest("[data-remove]");
 
-  if (minus) changeQuantity(Number(minus.dataset.minus), -1);
-  if (plus) changeQuantity(Number(plus.dataset.plus), 1);
-  if (remove) removeFromCart(Number(remove.dataset.remove));
+  if (minus) {
+    changeQuantity(Number(minus.dataset.minus), -1);
+  }
+
+  if (plus) {
+    changeQuantity(Number(plus.dataset.plus), 1);
+  }
+
+  if (remove) {
+    removeFromCart(Number(remove.dataset.remove));
+  }
 });
 
+// Checkout button
 document.getElementById("checkoutButton").addEventListener(
   "click",
   checkoutOnWhatsApp
@@ -506,21 +470,26 @@ menuToggle.addEventListener("click", () => {
 });
 
 nav.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", () => nav.classList.remove("open"));
+  link.addEventListener("click", () => {
+    nav.classList.remove("open");
+  });
 });
 
 // Current year
-document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent =
+  new Date().getFullYear();
 
-// Display products when the page opens
+// Display products and cart when page opens
 renderProducts();
 renderCart();
 
+// Product details modal
 const productModal = document.getElementById("productModal");
 const detailQuantity = document.getElementById("detailQuantity");
 
 let selectedProductId = null;
 
+// Open product details
 function openProductDetails(productId) {
   const product = products.find(item => item.id === productId);
 
@@ -530,10 +499,19 @@ function openProductDetails(productId) {
 
   document.getElementById("detailImage").src = product.image;
   document.getElementById("detailImage").alt = product.name;
-  document.getElementById("detailName").textContent = product.name;
-  document.getElementById("detailCategory").textContent = product.category;
-  document.getElementById("detailPrice").textContent = formatPrice(product.price);
-  document.getElementById("detailUnit").textContent = product.unit;
+
+  document.getElementById("detailName").textContent =
+    product.name;
+
+  document.getElementById("detailCategory").textContent =
+    product.category;
+
+  document.getElementById("detailPrice").textContent =
+    formatPrice(product.price);
+
+  document.getElementById("detailUnit").textContent =
+    product.unit;
+
   document.getElementById("detailQuantity").value = 1;
 
   document.getElementById("detailDescription").textContent =
@@ -543,17 +521,19 @@ function openProductDetails(productId) {
   document.body.style.overflow = "hidden";
 }
 
+// Close product details
 function closeProductDetails() {
   productModal.hidden = true;
   document.body.style.overflow = "";
 }
 
+// Click product card to open details
 productsGrid.addEventListener("click", event => {
   const card = event.target.closest(".product-card");
 
   if (!card) return;
 
-  // Do not open details when the Add to Cart button is clicked.
+  // Do not open details when Add to Cart is clicked
   if (event.target.closest("[data-add]")) return;
 
   const addButton = card.querySelector("[data-add]");
@@ -563,39 +543,81 @@ productsGrid.addEventListener("click", event => {
   }
 });
 
+// Close product modal button
 document.getElementById("closeProductModal").addEventListener(
   "click",
   closeProductDetails
 );
 
+// Close modal by clicking outside
 productModal.addEventListener("click", event => {
   if (event.target === productModal) {
     closeProductDetails();
   }
 });
 
-document.getElementById("detailAddButton").addEventListener("click", () => {
-  if (selectedProductId === null) return;
+// Add product from details modal
+document.getElementById("detailAddButton").addEventListener(
+  "click",
+  () => {
+    if (selectedProductId === null) return;
 
-  const quantity = Number.parseInt(detailQuantity.value, 10);
+    const quantity = Number.parseInt(detailQuantity.value, 10);
 
-  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 999) {
-    alert("Please enter a quantity between 1 and 999.");
+    if (
+      !Number.isInteger(quantity) ||
+      quantity < 1 ||
+      quantity > 999
+    ) {
+      alert("Please enter a quantity between 1 and 999.");
+      return;
+    }
+
+    const existingItem = cart.find(
+      item => item.id === selectedProductId
+    );
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.push({
+        id: selectedProductId,
+        quantity: quantity
+      });
+    }
+
+    renderCart();
+    closeProductDetails();
+    openCart();
+  }
+);
+
+// Customer form
+const customerForm = document.getElementById("customerDetails");
+const customerFormSection = document.getElementById("customer-form");
+const shopContent = document.getElementById("shop-content");
+
+// Save customer details and open shop
+customerForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  if (!customerForm.checkValidity()) {
+    customerForm.reportValidity();
     return;
   }
 
-  const existingItem = cart.find(item => item.id === selectedProductId);
+  customerDetails = {
+    name: document.getElementById("customerName").value.trim(),
+    location: document.getElementById("customerLocation").value.trim(),
+    phone: document.getElementById("customerPhone").value.trim()
+  };
 
-  if (existingItem) {
-    existingItem.quantity += quantity;
-  } else {
-    cart.push({
-      id: selectedProductId,
-      quantity: quantity
-    });
-  }
+  // Hide customer form
+  customerFormSection.style.display = "none";
 
-  renderCart();
-  closeProductDetails();
-  openCart();
+  // Show shop
+  shopContent.classList.add("shop-visible");
+
+  // Scroll to top
+  window.scrollTo(0, 0);
 });
